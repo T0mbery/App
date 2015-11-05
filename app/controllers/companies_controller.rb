@@ -1,47 +1,62 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
 
-  respond_to :html
+  before_filter :authenticate_user!
+  before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   def index
     @companies = Company.all
-    respond_with(@companies)
   end
 
   def show
-    respond_with(@company)
   end
 
   def new
     @company = Company.new
-    respond_with(@company)
   end
 
   def edit
+    authorize! :update, @company
   end
 
   def create
-    @company = Company.new(company_params)
-    @company.save
-    respond_with(@company)
+
+    begin
+      @company = Company.new(company_params)
+      @owner = true
+      if @company.save
+        CompanyUser.create(company_id: @company.id, user_id: current_user.id, owner: true)
+        redirect_to @company, notice: 'Company was successfully created.'
+      else
+        render :new
+      end
+    rescue ActionController::ParameterMissing
+      @company = Company.find(params[:company_id])
+      CompanyUser.create(company_id: @company.id, user_id: current_user.id, owner: false)
+      redirect_to @company
+    end
+
   end
 
   def update
-    @company.update(company_params)
-    respond_with(@company)
+    if @company.update(company_params)
+      redirect_to @company, notice: 'Company was successfully updated.'
+    else
+      render :edit
+    end
   end
 
   def destroy
     @company.destroy
-    respond_with(@company)
+    redirect_to companies_url, notice: 'Company was successfully destroyed.'
   end
 
   private
-    def set_company
-      @company = Company.find(params[:id])
-    end
 
-    def company_params
-      params.require(:company).permit(:name, :description)
-    end
+  def set_company
+    @company = Company.find(params[:id])
+  end
+
+  def company_params
+    params.require(:company).permit(:name, :description)
+  end
 end
