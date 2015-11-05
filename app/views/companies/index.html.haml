@@ -1,0 +1,20 @@
+%h1 Companies
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th{:colspan => "3"}
+  %tbody
+    - @companies.each do |company|
+      %tr
+        %td= company.name
+        %td= company.description
+        %td= link_to 'Show', company
+        - if can? :update, company
+          %td= link_to 'Edit', edit_company_path(company)
+        - if can? :destroy, company
+          %td= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
+%br
+- if can? :create, Company.new
+  = link_to 'New Company', new_company_path

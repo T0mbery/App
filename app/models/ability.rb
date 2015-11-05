@@ -13,7 +13,9 @@ class Ability
       can :destroy, Company do |company|
         company.company_users.where(owner: true, user_id: user.id).count > 0
       end
-      can :create, Company
+      can :create, Company do
+        CompanyUser.where(user_id: user.id, owner: true).blank?
+      end
     end
   end
 end

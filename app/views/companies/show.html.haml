@@ -1,0 +1,14 @@
+%p#notice= notice
+%p
+%strong Name:
+= @company.name
+%p
+%strong Description:
+= @company.description
+%br
+= link_to 'Edit', edit_company_path(@company)
+|
+\#{link_to 'Back', companies_path}
+%br
+- if CompanyUser.where(user_id: current_user.id, company_id: @company.id).blank?
+  = button_to "Вступить в организацию", companies_path(company_id: @company)
