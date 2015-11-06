@@ -1,0 +1,31 @@
+%h1 Projects
+
+- if @projects.blank?
+  %b
+    Нет существующих проектов
+- else
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Description
+        %th Company
+        %th
+        %th
+        %th
+
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= project.name
+          %td= project.description
+          %td= project.company_id
+          %td= link_to 'Show', company_project_path(@company, project)
+          %td= link_to 'Edit', edit_company_project_path(@company, project)
+          %td= link_to 'Destroy', company_project_path(@company, project), :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Project', new_company_project_path
+|
+= link_to 'Main page', companies_path

@@ -1,0 +1,16 @@
+%p#notice= notice
+
+%h1 Ваш проект:
+
+%p
+  %b Name:
+  = @project.name
+%p
+  %b Description:
+  = @project.description
+
+= link_to 'Edit', edit_company_project_path(@company, @project)
+\|
+= link_to 'Main page', companies_path
+\|
+= link_to 'Все ваши проекты', company_projects_path

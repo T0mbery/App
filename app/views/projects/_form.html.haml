@@ -1,0 +1,4 @@
+= simple_form_for [@company, @project] do |f|
+  = f.input :name, lable: "Название проекта"
+  = f.input :description, lable: "Опишите суть проекта"
+  = f.button :submit, lable: "Подать заявку", class: "btn btn-success"

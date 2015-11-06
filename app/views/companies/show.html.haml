@@ -12,3 +12,22 @@
 %br
 - if CompanyUser.where(user_id: current_user.id, company_id: @company.id).blank?
   = button_to "Вступить в организацию", companies_path(company_id: @company)
+
+- if CompanyUser.where(user_id: current_user.id, company_id: @company.id, owner: false).present?
+  = link_to "Создать проект", new_company_project_path(@company), class: "btn btn-warning"
+  = link_to "Ваши проекты", company_projects_path(@company), class: "btn btn-success"
+
+- if CompanyUser.where(user_id: current_user.id, company_id: @company.id, owner: true).present?
+  %table
+    %thead
+      %tr
+        %th Name
+        %th{:colspan => "3"}
+    %tbody
+      - @projects.each do |project|
+        %tr
+          %td= project.name
+          %td= link_to 'Show', company_project_path(@company, project)
+          - if can? :destroy, project
+            %td= link_to 'Destroy', company_project_path(@company, project), method: :delete, data: { confirm: 'Are you sure?' }
+

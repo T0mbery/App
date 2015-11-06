@@ -17,4 +17,4 @@
           %td= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
 %br
 - if can? :create, Company.new
-  = link_to 'New Company', new_company_path
+  = link_to 'New Company', new_company_path, class: "btn btn-success"

@@ -9,6 +9,14 @@
 <body>
 
 <% if user_signed_in? %>
+  <% if current_user.admin? %>
+    <div class="admin-panel">
+      <h4> A D M I N  </h4>
+    </div>
+  <% end %>
+<% end %>
+
+<% if user_signed_in? %>
     Вы вошли как <%= current_user.email.capitalize %>.
     <%= link_to "Выход", destroy_user_session_path, :method => :delete %>
 <% else %>

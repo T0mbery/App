@@ -1,6 +1,5 @@
 class CompaniesController < ApplicationController
 
-  before_filter :authenticate_user!
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -8,6 +7,7 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    @projects = Project.where(company_id: @company.id)
   end
 
   def new
@@ -46,6 +46,7 @@ class CompaniesController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @company
     @company.destroy
     redirect_to companies_url, notice: 'Company was successfully destroyed.'
   end
