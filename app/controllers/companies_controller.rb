@@ -7,8 +7,8 @@ class CompaniesController < ApplicationController
   end
 
   def show
-    @projects = Project.where(company_id: @company.id)
-
+    @search   = Project.ransack(params[:q])
+    @projects = @search.result.where(company_id: @company.id).paginate(page: params[:page], per_page: 3)
   end
 
   def new

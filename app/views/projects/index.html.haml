@@ -1,4 +1,8 @@
 %h1 Projects
+-#= search_form_for [@company, @search] do |f|
+-#  = f.label :aasm_state_cont, "state"
+-#  = f.search_field :aasm_state_cont
+-#  = f.submit 'отфильтровать'
 
 - if @projects.blank?
   %b
@@ -13,7 +17,7 @@
         %th CPU
         %th RAM
         %th HDD
-        %th State
+        %th= sort_link @search, :aasm_state, "State"
         %th
         %th
         %th
@@ -37,3 +41,6 @@
 = link_to 'New Project', new_company_project_path
 |
 = link_to 'Main page', companies_path
+
+%br
+= will_paginate @projects, renderer: BootstrapPagination::Rails, inner_window: 1, outer_window: 0
