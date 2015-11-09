@@ -33,3 +33,5 @@ gem 'haml-rails'
 gem 'carrierwave'
 
 gem 'rmagick'
+
+gem 'aasm'

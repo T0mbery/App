@@ -1,4 +1,7 @@
 = simple_form_for [@company, @project] do |f|
-  = f.input :name, lable: "Название проекта"
-  = f.input :description, lable: "Опишите суть проекта"
-  = f.button :submit, lable: "Подать заявку", class: "btn btn-success"
+  = f.input :name, label: "Название проекта"
+  = f.input :description, label: "Опишите суть проекта"
+  = f.input :cpu, label: "Процессор", hint: "выберите кол-во ядер", collection: [1,2,4,8], as: :radio_buttons
+  = f.input :ram, label: "Оперативная память", hint: "выберите озу, Mb", collection: [1024,2048,4096], as: :radio_buttons
+  = f.input :hdd, label: "Жёсткий диск", hint: "выберите жесткий диск, Гб", collection: [50,100,300,500,1000], as: :radio_buttons
+  = f.button :submit, label: "Подать заявку", class: "btn btn-success"

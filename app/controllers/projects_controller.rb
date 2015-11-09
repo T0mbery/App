@@ -29,14 +29,17 @@ class ProjectsController < ApplicationController
 
   def update
     if  @project.update(project_params)
-      redirect_to company_project_path(@company, @project), notice: 'Project successfully updated.'
+      if CompanyUser.where(user_id: current_user.id, company_id: @company.id, owner: true).present?
+        redirect_to company_path(@company), notice: 'Project successfully updated.'
+      else
+        redirect_to company_project_path(@company, @project), notice: 'Project successfully updated.'
+      end
     else
       render :edit
     end
   end
 
   def destroy
-    authorize! :destroy, @project
     @project.destroy
     redirect_to company_path(@company)
   end
@@ -51,6 +54,6 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:name, :description, :user_id, :company_id)
+      params.require(:project).permit(:name, :description, :user_id, :company_id, :cpu, :ram, :hdd, :aasm_state)
     end
 end

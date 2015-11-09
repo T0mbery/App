@@ -4,12 +4,16 @@
   %b
     Нет существующих проектов
 - else
-  %table
+  %table.table.table-bordered
     %thead
       %tr
         %th Name
         %th Description
         %th Company
+        %th CPU
+        %th RAM
+        %th HDD
+        %th State
         %th
         %th
         %th
@@ -20,6 +24,10 @@
           %td= project.name
           %td= project.description
           %td= project.company_id
+          %td= project.cpu
+          %td= project.ram
+          %td= project.hdd
+          %td= project.aasm_state
           %td= link_to 'Show', company_project_path(@company, project)
           %td= link_to 'Edit', edit_company_project_path(@company, project)
           %td= link_to 'Destroy', company_project_path(@company, project), :method => :delete, :data => { :confirm => 'Are you sure?' }

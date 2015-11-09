@@ -8,6 +8,7 @@ class CompaniesController < ApplicationController
 
   def show
     @projects = Project.where(company_id: @company.id)
+
   end
 
   def new

@@ -1,9 +1,15 @@
 %p#notice= notice
 %p
+%strong logo:
+%br
+= image_tag @company.image_url(:thumb).to_s
+%br
 %strong Name:
+%br
 = @company.name
 %p
 %strong Description:
+%br
 = @company.description
 %br
 = link_to 'Edit', edit_company_path(@company)
@@ -18,15 +24,25 @@
   = link_to "Ваши проекты", company_projects_path(@company), class: "btn btn-success"
 
 - if CompanyUser.where(user_id: current_user.id, company_id: @company.id, owner: true).present?
-  %table
+  %table.table.table-bordered
     %thead
       %tr
-        %th Name
+        %th Список проектов
+        %th CPU
+        %th RAM
+        %th HDD
+        %th State
         %th{:colspan => "3"}
     %tbody
       - @projects.each do |project|
         %tr
           %td= project.name
+          %td= project.cpu
+          %td= project.ram
+          %td= project.hdd
+          = simple_form_for [@company, project] do |f|
+            %td= f.input :aasm_state, label: false, collection: ['unconfirmed','confirmed','canceled']
+            %td= f.button :submit, "подтвердить статус"
           %td= link_to 'Show', company_project_path(@company, project)
           - if can? :destroy, project
             %td= link_to 'Destroy', company_project_path(@company, project), method: :delete, data: { confirm: 'Are you sure?' }
