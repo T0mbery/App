@@ -20,3 +20,5 @@
 %br
 - if can? :create, Company.new
   = link_to 'New Company', new_company_path, class: "btn btn-success"
+%br
+= will_paginate @companies, renderer: BootstrapPagination::Rails, inner_window: 1, outer_window: 0

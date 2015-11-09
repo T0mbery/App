@@ -3,7 +3,7 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   def index
-    @companies = Company.all
+    @companies = Company.all.order("created_at DESC").paginate(page: params[:page], per_page: 3)
   end
 
   def show
